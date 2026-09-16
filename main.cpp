@@ -94,7 +94,7 @@ int main(int argc, char ** argv)
     times.push_back(cl.millisec());
     total = cl.millisec();
 
-    std::cout << total - init << ' ' << sum << '\n';
+    std::cout << total - init << '\n';
 
     sum = 0;
   }
@@ -111,6 +111,6 @@ int main(int argc, char ** argv)
     std::cout << times[i] << '\n';
   }
 
-  std::cout << '\n' << summ << '\n';
+  std::cout << '\n' << summ / 5 << '\n';
   std::cout << '\n' << times[2] << '\n';
 }
