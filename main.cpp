@@ -2,6 +2,8 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <future>
 
 class Clicker
 {
@@ -10,7 +12,8 @@ public:
   start_(std::chrono::high_resolution_clock::now())
   {}
 
-  double millisec() const {
+  double millisec() const
+  {
     using std::chrono::high_resolution_clock;
     using std::chrono::duration_cast;
     using std::chrono::milliseconds;
@@ -18,7 +21,7 @@ public:
     return duration_cast< milliseconds >(t - start_).count();
   }
 private:
-  std::chrono::time_point< std::chrono::steady_clock > start_;
+  std::chrono::time_point< std::chrono::high_resolution_clock > start_;
 };
 
 using data_t = std::vector< unsigned long long >;
@@ -29,8 +32,10 @@ int main(int argc, char ** argv)
   constexpr size_t size{1'000'000'000};
   double init{0}, total{0};
   value_t sum{0};
+
+
   {
-    mtt::Clicker cl;
+    Clicker cl;
     data_t values(size, 1);
     init = cl.millisec();
     for (size_t i = 0; i < values.size(); ++i)
