@@ -33,7 +33,6 @@ int main(int argc, char ** argv)
   double init{0}, total{0};
   value_t sum{0};
 
-
   {
     Clicker cl;
     data_t values(size, 1);
@@ -44,4 +43,6 @@ int main(int argc, char ** argv)
     }
     total = cl.millisec();
   }
+
+  std::cout << total - init << '\n';
 }
