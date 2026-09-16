@@ -99,7 +99,7 @@ int main(int argc, char ** argv)
 
     sum = 0;
 
-    std::this_thread::sleep_for(std::chrono::seconds(4));
+    std::this_thread::sleep_for(std::chrono::seconds(10));
   }
 
   std::cout << '\n';
