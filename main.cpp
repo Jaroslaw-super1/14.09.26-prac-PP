@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <future>
 #include <functional>
+#include <algorithm>
 
 class Clicker
 {
@@ -49,15 +50,26 @@ int main(int argc, char ** argv)
   double init{0}, total{0};
   value_t sum{0};
 
+
+
+
+
+  data_t values(size, 1);
+  size_t v_size = values.size();
+
+  const std::size_t chunk = v_size / threads;
+  const std::size_t rem = v_size % threads;
+
+
+  std::vector< size_t > times;
+
+
+
+  for (size_t r = 0; r < 5; r++)
   {
     Clicker cl;
-    data_t values(size, 1);
-    size_t v_size = values.size();
-
+    
     init = cl.millisec();
-
-    const std::size_t chunk = v_size / threads;
-    const std::size_t rem = v_size % threads;
 
     std::vector< std::future< value_t > > futures;
     futures.reserve(threads);
@@ -79,8 +91,26 @@ int main(int argc, char ** argv)
       sum += f.get();
     }
 
+    times.push_back(cl.millisec());
     total = cl.millisec();
+
+    std::cout << total - init << ' ' << sum << '\n';
+
+    sum = 0;
   }
 
-  std::cout << total - init << ' ' << sum << '\n';
+  std::cout << '\n';
+
+  std::sort(times.begin(), times.end());
+
+  size_t summ = 0;
+
+  for (size_t i = 0; i < 5; i++)
+  {
+    summ += times[i];
+    std::cout << times[i] << '\n';
+  }
+
+  std::cout << '\n' << summ << '\n';
+  std::cout << '\n' << times[2] << '\n';
 }
