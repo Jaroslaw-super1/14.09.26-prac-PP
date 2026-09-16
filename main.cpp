@@ -6,6 +6,7 @@
 #include <future>
 #include <functional>
 #include <algorithm>
+#include <thread>
 
 class Clicker
 {
@@ -97,6 +98,8 @@ int main(int argc, char ** argv)
     std::cout << total - init << '\n';
 
     sum = 0;
+
+    std::this_thread::sleep_for(std::chrono::seconds(4));
   }
 
   std::cout << '\n';
