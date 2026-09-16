@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdlib>
 #include <future>
+#include <functional>
 
 class Clicker
 {
@@ -56,23 +57,30 @@ int main(int argc, char ** argv)
     init = cl.millisec();
 
     const std::size_t chunk = v_size / threads;
-    const std::size_t rem   = v_size % threads;
+    const std::size_t rem = v_size % threads;
 
     std::vector< std::future< value_t > > futures;
     futures.reserve(threads);
 
 
+    size_t begin = 0;
 
-
-
-
-
-    for (size_t i = 0; i < values.size(); ++i)
+    for (size_t i = 0; i < threads; ++i)
     {
-      sum += values[i];
+      const size_t end = begin + chunk + (i < rem ? 1 : 0);
+
+      futures.emplace_back(std::async(std::launch::async, sum_range, std::cref(values), begin, end));
+
+      begin = end;
     }
+
+    for (auto & f : futures)
+    {
+      sum += f.get();
+    }
+
     total = cl.millisec();
   }
 
-  std::cout << total - init << '\n';
+  std::cout << total - init << ' ' << sum << '\n';
 }
